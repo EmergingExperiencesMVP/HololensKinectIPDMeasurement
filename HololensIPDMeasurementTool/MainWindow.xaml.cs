@@ -56,6 +56,16 @@ namespace HololensIPDMeasurementTool
 
         private WriteableBitmap _infraredBitmap = null;
 
+        private bool _isMeasuring = false;
+
+        private List<double> _collectedMeasurements;
+
+        private const string SETTINGS_FILENAME = "settings.txt";
+
+        private DevPortalVM _settingsVM;
+
+        private DevPortalHelper _devicePortalClient;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -65,6 +75,7 @@ namespace HololensIPDMeasurementTool
         {
             _sensor = KinectSensor.GetDefault();
             _coordinateMapper = _sensor.CoordinateMapper;
+            _collectedMeasurements = new List<double>();
 
             if (_sensor != null)
             {
@@ -89,11 +100,17 @@ namespace HololensIPDMeasurementTool
 
                 _sensor.Open();
             }
+
+            _settingsVM = DevPortalVM.LoadContext(SETTINGS_FILENAME);
+            DevPortalGrid.DataContext = _settingsVM;
+            _devicePortalClient = new DevPortalHelper(_settingsVM);
+          
         }
 
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
+            _settingsVM.SaveContext(SETTINGS_FILENAME);
 
             if (_faceFrameReader != null)
             {
@@ -135,6 +152,22 @@ namespace HololensIPDMeasurementTool
                     var cspRightEye = GetRightEye(faceVertices);
 
                     var ipd = cspLeftEye.Distance(cspRightEye) * 1000;
+                    if(_isMeasuring)
+                    {
+                        _collectedMeasurements.Add(ipd);
+                        var avg = _collectedMeasurements.Average();
+                        this.myText.Text = avg.ToString("0.000");
+                        pbMeasure.Value++;
+                        if(pbMeasure.Value == pbMeasure.Maximum)
+                        {
+                            _isMeasuring = false;
+                            finalIPD.Text = avg.ToString("0.000");
+                            spTalkToDevicePortal.Visibility = Visibility.Visible;
+                        }
+
+                    } else {
+                        this.myText.Text = ipd.ToString("0.000");
+                    }
 
 
                     var pointEyeLeft = _coordinateMapper.MapCameraPointToDepthSpace(cspLeftEye);
@@ -146,8 +179,6 @@ namespace HololensIPDMeasurementTool
                     var pointChin = _coordinateMapper.MapCameraPointToDepthSpace(faceVertices[4]);
                     var pointForehead = _coordinateMapper.MapCameraPointToDepthSpace(faceVertices[28]);
 
-
-                    this.myText.Text = ipd.ToString("0.000");
 
                     Canvas.SetLeft(eyeLeft, pointEyeLeft.X - eyeLeft.Width / 2.0);
                     Canvas.SetTop(eyeLeft, pointEyeLeft.Y - eyeLeft.Height / 2.0);
@@ -258,6 +289,33 @@ namespace HololensIPDMeasurementTool
                     }
                 }
             }
+        }
+
+        private void MeasureButton_Click(object sender, RoutedEventArgs e)
+        {
+            spTalkToDevicePortal.Visibility = Visibility.Collapsed;
+            _collectedMeasurements.Clear();
+            pbMeasure.Value = 0;
+            _isMeasuring = true;
+        }
+
+        private void SubmitButton_Click(object sender, RoutedEventArgs e)
+        {
+            var ipd = double.Parse(finalIPD.Text);
+            try
+            {
+                _devicePortalClient.SetIPD(ipd);
+                _settingsVM.IPD = ipd;
+            }
+            catch
+            {
+                MessageBox.Show("Unable to save IPD setting to the HoloLens");
+            }
+        }
+
+        private void SaveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            _settingsVM.SaveContext(SETTINGS_FILENAME);
         }
     }
 }

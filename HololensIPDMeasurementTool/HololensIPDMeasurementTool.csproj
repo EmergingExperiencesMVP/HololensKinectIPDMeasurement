@@ -101,6 +101,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DevPortalHelper.cs" />
+    <Compile Include="DevPortalVM.cs" />
     <Compile Include="ImageExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

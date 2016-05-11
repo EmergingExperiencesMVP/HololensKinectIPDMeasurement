@@ -4,28 +4,72 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HololensIPDMeasurementTool"
-        mc:Ignorable="d" Background="Black"
-        Title="Iterpupillary Distance Measure" Height="350" Width="525" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+        mc:Ignorable="d" Background="Black" 
+        Title="Iterpupillary Distance Measure" Height="350" Width="925" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="90"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock FontSize="36" x:Name="myText" Foreground="#FFF5F3F3" HorizontalAlignment="Center">IDP Measurement: </TextBlock>
-        <Viewbox Grid.Row="1">
-            <Grid Width="512" Height="424" Background="Black">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock FontSize="36"  Foreground="#FFF5F3F3">IPD Measurement: </TextBlock>
+            <TextBlock FontSize="36" x:Name="myText" Foreground="#FFF5F3F3" Margin="20,0,0,0"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+            <Button Width="75" FontSize="26" Click="MeasureButton_Click">Start</Button>
+            <ProgressBar x:Name="pbMeasure" Minimum="0" Maximum="300" Value="175" Width="400" Margin="25,0,0,0" Background="Black"></ProgressBar>
+            <StackPanel x:Name="spTalkToDevicePortal" Orientation="Horizontal" Margin="20,0,0,0" Visibility="Collapsed">
+                <TextBox x:Name="finalIPD" FontSize="36" Foreground="#FF2DD12D"></TextBox>
+                <Button Margin="10,0,0,0" Width="235" FontSize="26" Click="SubmitButton_Click">Send to HoloLens</Button>
+            </StackPanel>
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+        <Grid x:Name="DevPortalGrid" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Foreground="White">HoloLens IDP:</Label>
+                <TextBlock Grid.Column="1" Text="{Binding IPD}" Foreground="Gray" FontSize="22"/>
+                <CheckBox Grid.Row="1" Grid.Column="0" Foreground="White">Use USB</CheckBox>
+                <Label Grid.Row="2" Grid.Column="0" Foreground="White">IP Address:</Label>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding IpAddress}" />
+                <Label Grid.Row="3" Grid.Column="0" Foreground="White">User Name:</Label>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding UserName}" />
+                <Label Grid.Row="4" Grid.Column="0" Foreground="White">Password:</Label>
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Password}" />
+                <Button Grid.Row="5" Grid.ColumnSpan="2" Click="SaveSettings_Click">Save Settings</Button>
+            </Grid>
+        <Viewbox Grid.Column="1">
+            <Grid Width="512" Height="424" Background="Black" >
                 <Image Name="camera" />
                 <Canvas Name="canvas">
-                    <Ellipse Name="eyeLeft" Width="3" Height="3" Fill="Violet" />
-                    <Ellipse Name="eyeRight" Width="3" Height="3" Fill="Violet" />
-                    <Ellipse Name="cheekLeft" Width="6" Height="6" Fill="Blue" />
-                    <Ellipse Name="cheekRight" Width="6" Height="6" Fill="Blue" />
-                    <Ellipse Name="nose" Width="6" Height="6" Fill="Blue" />
-                    <Ellipse Name="mouth" Width="6" Height="6" Fill="Blue" />
-                    <Ellipse Name="chin" Width="6" Height="6" Fill="Blue" />
-                    <Ellipse Name="forehead" Width="6" Height="6" Fill="Blue" />
+                    <Ellipse Name="eyeLeft" Width="3" Height="3" Fill="Violet" Canvas.Left="-1500" Canvas.Right="-500"/>
+                    <Ellipse Name="eyeRight" Width="3" Height="3" Fill="Violet" Canvas.Left="-1500" Canvas.Right="-500"/>
+                    <Ellipse Name="cheekLeft" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
+                    <Ellipse Name="cheekRight" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
+                    <Ellipse Name="nose" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
+                    <Ellipse Name="mouth" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
+                    <Ellipse Name="chin" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
+                    <Ellipse Name="forehead" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
                 </Canvas>
             </Grid>
         </Viewbox>
+        </Grid>
     </Grid>
 </Window>
