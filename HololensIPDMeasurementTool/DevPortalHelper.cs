@@ -60,7 +60,7 @@ namespace HololensIPDMeasurementTool
         private double GetIPDFromResult(string result)
         {
             var value = result.Split(':')[1].Trim(' ', '}');
-            return Double.Parse(value) / 1000;
+            return Double.Parse(value);
         }
 
 
@@ -70,7 +70,8 @@ namespace HololensIPDMeasurementTool
             var client = CreateIgnorantHttpClient();
             var uriBuilder = new UriBuilder(ipdUri);
             uriBuilder.Query = "ipd=" + ipd * 1000;
-            client.PostAsync(uriBuilder.Uri, null);
+            var response = client.PostAsync(uriBuilder.Uri, null);
+            var me = response.Result.StatusCode;
             _settings.IPD = ipd;
         }
 
@@ -81,7 +82,8 @@ namespace HololensIPDMeasurementTool
             {
                 var client = CreateIgnorantHttpClient();
                 var response = await client.GetStringAsync(ipdUri);
-                ipd = GetIPDFromResult(response);
+                var res = GetIPDFromResult(response);
+                ipd = res / 1000;
                 Debug.WriteLine("IPD: " + ipd);
             }
             catch (Exception)

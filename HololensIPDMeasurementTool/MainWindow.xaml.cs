@@ -304,18 +304,25 @@ namespace HololensIPDMeasurementTool
             var ipd = double.Parse(finalIPD.Text);
             try
             {
+                _settingsVM.Password = password.Password;
                 _devicePortalClient.SetIPD(ipd);
                 _settingsVM.IPD = ipd;
             }
             catch
             {
-                MessageBox.Show("Unable to save IPD setting to the HoloLens");
+                MessageBox.Show("Unable to save IPD setting to the HoloLens. Make sure the HoloLens is powered and IP address is correct.");
             }
         }
 
         private void SaveSettings_Click(object sender, RoutedEventArgs e)
         {
             _settingsVM.SaveContext(SETTINGS_FILENAME);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _settingsVM.Password = password.Password;
+            var idp = _devicePortalClient.GetIPDFromDevice();
         }
     }
 }

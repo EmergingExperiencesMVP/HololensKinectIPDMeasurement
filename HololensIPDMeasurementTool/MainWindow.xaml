@@ -18,7 +18,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
             <Button Width="75" FontSize="26" Click="MeasureButton_Click">Start</Button>
-            <ProgressBar x:Name="pbMeasure" Minimum="0" Maximum="300" Value="175" Width="400" Margin="25,0,0,0" Background="Black"></ProgressBar>
+            <ProgressBar x:Name="pbMeasure" Minimum="0" Maximum="100" Value="75" Width="400" Margin="25,0,0,0" Background="Black"></ProgressBar>
             <StackPanel x:Name="spTalkToDevicePortal" Orientation="Horizontal" Margin="20,0,0,0" Visibility="Collapsed">
                 <TextBox x:Name="finalIPD" FontSize="36" Foreground="#FF2DD12D"></TextBox>
                 <Button Margin="10,0,0,0" Width="235" FontSize="26" Click="SubmitButton_Click">Send to HoloLens</Button>
@@ -48,11 +48,11 @@
                 <TextBlock Grid.Column="1" Text="{Binding IPD}" Foreground="Gray" FontSize="22"/>
                 <CheckBox Grid.Row="1" Grid.Column="0" Foreground="White">Use USB</CheckBox>
                 <Label Grid.Row="2" Grid.Column="0" Foreground="White">IP Address:</Label>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding IpAddress}" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding IpAddress}" FontSize="22"/>
                 <Label Grid.Row="3" Grid.Column="0" Foreground="White">User Name:</Label>
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding UserName}" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding UserName}" FontSize="22"/>
                 <Label Grid.Row="4" Grid.Column="0" Foreground="White">Password:</Label>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Password}" />
+                <PasswordBox x:Name="password" Grid.Row="4" Grid.Column="1"  FontSize="22"/>
                 <Button Grid.Row="5" Grid.ColumnSpan="2" Click="SaveSettings_Click">Save Settings</Button>
             </Grid>
         <Viewbox Grid.Column="1">
