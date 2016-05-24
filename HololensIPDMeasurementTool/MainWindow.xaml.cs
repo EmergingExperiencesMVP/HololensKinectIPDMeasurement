@@ -179,7 +179,6 @@ namespace HololensIPDMeasurementTool
                     var pointChin = _coordinateMapper.MapCameraPointToDepthSpace(faceVertices[4]);
                     var pointForehead = _coordinateMapper.MapCameraPointToDepthSpace(faceVertices[28]);
 
-
                     Canvas.SetLeft(eyeLeft, pointEyeLeft.X - eyeLeft.Width / 2.0);
                     Canvas.SetTop(eyeLeft, pointEyeLeft.Y - eyeLeft.Height / 2.0);
 
@@ -204,22 +203,26 @@ namespace HololensIPDMeasurementTool
                     Canvas.SetLeft(forehead, pointForehead.X - forehead.Width / 2.0);
                     Canvas.SetTop(forehead, pointForehead.Y - forehead.Height / 2.0);
 
-
                 }
             }
         }
 
         private CameraSpacePoint GetLeftEye(IReadOnlyList<CameraSpacePoint> vertices)
         {
-            CameraSpacePoint cameraSpacePoint = vertices[210];
-            CameraSpacePoint cameraSpacePoint2 = vertices[469];
+            //CameraSpacePoint cameraSpacePoint = vertices[210];
+            //CameraSpacePoint cameraSpacePoint2 = vertices[469];
+
+            //HighDetailFacePoints.LefteyeMidbottom
+            CameraSpacePoint cameraSpacePoint = vertices[1104];
+            //HighDetailFacePoints.LefteyeMidtop
+            CameraSpacePoint cameraSpacePoint2 = vertices[241];
+
             return new CameraSpacePoint
             {
                 X = (cameraSpacePoint2.X + cameraSpacePoint.X) / 2f,
                 Y = (cameraSpacePoint2.Y + cameraSpacePoint.Y) / 2f,
                 Z = (cameraSpacePoint2.Z + cameraSpacePoint.Z) / 2f
             };
-
         }
 
         /// <summary>
@@ -227,15 +230,20 @@ namespace HololensIPDMeasurementTool
         /// </summary>
         private CameraSpacePoint GetRightEye(IReadOnlyList<CameraSpacePoint> vertices)
         {
+            //CameraSpacePoint cameraSpacePoint = vertices[843];
+            //CameraSpacePoint cameraSpacePoint2 = vertices[1117];
 
-            CameraSpacePoint cameraSpacePoint = vertices[843];
-            CameraSpacePoint cameraSpacePoint2 = vertices[1117];
+            //HighDetailFacePoints.RighteyeMidbottom
+            CameraSpacePoint cameraSpacePoint = vertices[1090];
+            //HighDetailFacePoints.RighteyeMidtop
+            CameraSpacePoint cameraSpacePoint2 = vertices[731];
             return new CameraSpacePoint
             {
                 X = (cameraSpacePoint2.X + cameraSpacePoint.X) / 2f,
                 Y = (cameraSpacePoint2.Y + cameraSpacePoint.Y) / 2f,
                 Z = (cameraSpacePoint2.Z + cameraSpacePoint.Z) / 2f
             };
+
         }
 
 

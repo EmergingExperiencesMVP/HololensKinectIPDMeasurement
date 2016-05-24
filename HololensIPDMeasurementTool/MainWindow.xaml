@@ -67,7 +67,7 @@
                     <Ellipse Name="mouth" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
                     <Ellipse Name="chin" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
                     <Ellipse Name="forehead" Width="6" Height="6" Fill="Blue" Canvas.Left="-1500" Canvas.Right="-500"/>
-                </Canvas>
+                    </Canvas>
             </Grid>
         </Viewbox>
         </Grid>

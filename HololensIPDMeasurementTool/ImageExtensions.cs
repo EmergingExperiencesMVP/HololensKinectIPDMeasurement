@@ -107,7 +107,7 @@ namespace ImaginativeUniversal
             return
                Math.Sqrt
                (
-                   (v1.X - v2.X) * (v1.X - v2.X) +
+                   (double)(v1.X - v2.X) * (v1.X - v2.X) +
                    (v1.Y - v2.Y) * (v1.Y - v2.Y) +
                    (v1.Z - v2.Z) * (v1.Z - v2.Z)
                );
